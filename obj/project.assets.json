@@ -5060,11 +5060,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ndila\\OneDrive\\Desktop\\New folder (3)\\ShiftWiseAI.Server\\ShiftWiseAI.Server.csproj",
+      "projectUniqueName": "C:\\Users\\ndila\\OneDrive\\Desktop\\ShiftWise\\ShiftWiseAI.Server\\ShiftWiseAI.Server.csproj",
       "projectName": "ShiftWiseAI.Server",
-      "projectPath": "C:\\Users\\ndila\\OneDrive\\Desktop\\New folder (3)\\ShiftWiseAI.Server\\ShiftWiseAI.Server.csproj",
+      "projectPath": "C:\\Users\\ndila\\OneDrive\\Desktop\\ShiftWise\\ShiftWiseAI.Server\\ShiftWiseAI.Server.csproj",
       "packagesPath": "C:\\Users\\ndila\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ndila\\OneDrive\\Desktop\\New folder (3)\\ShiftWiseAI.Server\\obj\\",
+      "outputPath": "C:\\Users\\ndila\\OneDrive\\Desktop\\ShiftWise\\ShiftWiseAI.Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
