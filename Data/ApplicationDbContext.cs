@@ -14,6 +14,7 @@ namespace ShiftWiseAI.Server.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
+        public DbSet<ShiftAssignment> ShiftAssignments { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -41,6 +42,22 @@ namespace ShiftWiseAI.Server.Data
                 .WithMany(o => o.Employees)
                 .HasForeignKey(e => e.OrganizationId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ShiftAssignment>()
+                .HasKey(sa => sa.Id);
+
+            builder.Entity<ShiftAssignment>()
+                .HasOne(sa => sa.Employee)
+                .WithMany(e => e.AssignedShifts)
+                .HasForeignKey(sa => sa.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<ShiftAssignment>()
+                .HasOne(sa => sa.Shift)
+                .WithMany(s => s.Assignments)
+                .HasForeignKey(sa => sa.ShiftId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

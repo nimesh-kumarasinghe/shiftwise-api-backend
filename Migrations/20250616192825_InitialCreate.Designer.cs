@@ -12,8 +12,8 @@ using ShiftWiseAI.Server.Data;
 namespace ShiftWiseAI.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250616151802_AddWeekylyHours")]
-    partial class AddWeekylyHours
+    [Migration("20250616192825_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,11 +234,9 @@ namespace ShiftWiseAI.Server.Migrations
 
             modelBuilder.Entity("ShiftWiseAI.Server.Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AvailabilityNotes")
                         .IsRequired()
@@ -325,22 +323,51 @@ namespace ShiftWiseAI.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EmployeeId")
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("End")
+                    b.Property<DateTime>("ShiftDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ShiftType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganizationId");
+
                     b.ToTable("Shifts");
+                });
+
+            modelBuilder.Entity("ShiftWiseAI.Server.Models.ShiftAssignment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ShiftId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ShiftId");
+
+                    b.ToTable("ShiftAssignments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -427,11 +454,51 @@ namespace ShiftWiseAI.Server.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("ShiftWiseAI.Server.Models.Shift", b =>
+                {
+                    b.HasOne("ShiftWiseAI.Server.Models.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("ShiftWiseAI.Server.Models.ShiftAssignment", b =>
+                {
+                    b.HasOne("ShiftWiseAI.Server.Models.Employee", "Employee")
+                        .WithMany("AssignedShifts")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ShiftWiseAI.Server.Models.Shift", "Shift")
+                        .WithMany("Assignments")
+                        .HasForeignKey("ShiftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Shift");
+                });
+
+            modelBuilder.Entity("ShiftWiseAI.Server.Models.Employee", b =>
+                {
+                    b.Navigation("AssignedShifts");
+                });
+
             modelBuilder.Entity("ShiftWiseAI.Server.Models.Organization", b =>
                 {
                     b.Navigation("Employees");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ShiftWiseAI.Server.Models.Shift", b =>
+                {
+                    b.Navigation("Assignments");
                 });
 #pragma warning restore 612, 618
         }

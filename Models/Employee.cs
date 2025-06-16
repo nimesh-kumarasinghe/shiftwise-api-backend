@@ -13,7 +13,7 @@
 
     public class Employee
     {
-        public int Id { get; set; }  // int or Guid is fine, but start simple
+        public Guid Id { get; set; }  // int or Guid is fine, but start simple
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -23,6 +23,8 @@
 
         public Guid OrganizationId { get; set; }
         public Organization Organization { get; set; }
+
+        public ICollection<ShiftAssignment> AssignedShifts { get; set; }
     }
 
 }
