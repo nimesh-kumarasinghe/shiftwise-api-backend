@@ -241,10 +241,10 @@ C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\st
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ShiftWis.CA51C25C.Up2Date
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ShiftWiseAI.Server.dll
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\refint\ShiftWiseAI.Server.dll
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ShiftWiseAI.Server.pdb
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ShiftWiseAI.Server.genruntimeconfig.cache
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ref\ShiftWiseAI.Server.dll
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

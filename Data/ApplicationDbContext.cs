@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShiftWiseAI.Server.Models;
+using System.Reflection.Emit;
 namespace ShiftWiseAI.Server.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -17,6 +18,16 @@ namespace ShiftWiseAI.Server.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<ApplicationUser>()
+                .Property(u => u.OrganizationId)
+                .IsRequired();
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(u => u.Organization)
+                .WithMany(o => o.Users)
+                .HasForeignKey(u => u.OrganizationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Customize the ASP.NET Identity model and override the defaults if needed.
             builder.Entity<Organization>()
                 .HasMany(o => o.Users)
@@ -24,11 +35,12 @@ namespace ShiftWiseAI.Server.Data
                 .HasForeignKey(u => u.OrganizationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Organization>()
-            .HasMany(o => o.Employees)
-            .WithOne()
-            .HasForeignKey(e => e.OrganizationId)
-            .OnDelete(DeleteBehavior.Cascade);
+            // Link Employee → Organization (employee belongs to one org)
+            builder.Entity<Employee>()
+                .HasOne(e => e.Organization)
+                .WithMany(o => o.Employees)
+                .HasForeignKey(e => e.OrganizationId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
