@@ -25,6 +25,7 @@ namespace ShiftWiseAI.Server.Controllers
             _userManager = userManager;
         }
 
+        // Add an employee
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(CreateEmployeeRequest request)
         {
@@ -41,6 +42,7 @@ namespace ShiftWiseAI.Server.Controllers
                 Phone = request.Phone,
                 Role = request.Role,
                 AvailabilityNotes = request.AvailabilityNotes,
+                MaxWeeklyHours = request.MaxWeeklyHours,
                 OrganizationId = user.OrganizationId
             };
 
@@ -50,6 +52,7 @@ namespace ShiftWiseAI.Server.Controllers
             return Ok(new { message = "Employee added successfully." });
         }
 
+        // Get all employees
         [HttpGet]
         public async Task<IActionResult> GetMyEmployees()
         {
@@ -69,11 +72,61 @@ namespace ShiftWiseAI.Server.Controllers
                     Email = e.Email,
                     Phone = e.Phone,
                     Role = e.Role,
-                    AvailabilityNotes = e.AvailabilityNotes
+                    AvailabilityNotes = e.AvailabilityNotes,
+                    MaxWeeklyHours = e.MaxWeeklyHours
                 })
                 .ToListAsync();
 
             return Ok(employees);
         }
+
+        // Update employee data
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Manager")]
+        public async Task<IActionResult> UpdateEmployee(int id, [FromBody] UpdateEmployeeRequest request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user?.OrganizationId == null)
+                return Unauthorized("No organization found for user.");
+
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.Id == id && e.OrganizationId == user.OrganizationId);
+
+            if (employee == null)
+                return NotFound("Employee not found.");
+
+            employee.FullName = request.FullName;
+            employee.Role = request.Role;
+            employee.MaxWeeklyHours = request.MaxWeeklyHours;
+
+            await _context.SaveChangesAsync();
+            return Ok("Employee updated successfully.");
+        }
+
+        // Delete an employee
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,Manager")]
+        public async Task<IActionResult> DeleteEmployee(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user?.OrganizationId == null)
+                return Unauthorized("No organization found for user.");
+
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.Id == id && e.OrganizationId == user.OrganizationId);
+
+            if (employee == null)
+                return NotFound("Employee not found.");
+
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+
+            return Ok("Employee deleted successfully.");
+        }
+
     }
 }

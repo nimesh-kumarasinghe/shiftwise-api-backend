@@ -19,6 +19,7 @@
         public string Phone { get; set; }
         public string Role { get; set; } // Cashier, Nurse, etc.
         public string AvailabilityNotes { get; set; }
+        public int MaxWeeklyHours {  get; set; }
 
         public Guid OrganizationId { get; set; }
         public Organization Organization { get; set; }
