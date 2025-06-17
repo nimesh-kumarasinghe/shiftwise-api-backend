@@ -27,6 +27,7 @@ namespace ShiftWiseAI.Server.Controllers
 
         // Add an employee
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> CreateEmployee(CreateEmployeeRequest request)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -54,6 +55,7 @@ namespace ShiftWiseAI.Server.Controllers
 
         // Get all employees
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetMyEmployees()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -73,7 +75,8 @@ namespace ShiftWiseAI.Server.Controllers
                     Phone = e.Phone,
                     Role = e.Role,
                     AvailabilityNotes = e.AvailabilityNotes,
-                    MaxWeeklyHours = e.MaxWeeklyHours
+                    MaxWeeklyHours = e.MaxWeeklyHours,
+                    IsActive = e.IsActive,
                 })
                 .ToListAsync();
 
@@ -100,6 +103,8 @@ namespace ShiftWiseAI.Server.Controllers
             employee.FullName = request.FullName;
             employee.Role = request.Role;
             employee.MaxWeeklyHours = request.MaxWeeklyHours;
+            employee.Phone = request.Phone;
+            employee.IsActive = request.IsActive;
 
             await _context.SaveChangesAsync();
             return Ok("Employee updated successfully.");

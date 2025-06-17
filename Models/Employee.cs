@@ -20,6 +20,7 @@
         public string Role { get; set; } // Cashier, Nurse, etc.
         public string AvailabilityNotes { get; set; }
         public int MaxWeeklyHours {  get; set; }
+        public bool IsActive { get; set; } = true; // Default to active
 
         public Guid OrganizationId { get; set; }
         public Organization Organization { get; set; }
