@@ -248,3 +248,5 @@ C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\Sh
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ShiftWiseAI.Server.genruntimeconfig.cache
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ref\ShiftWiseAI.Server.dll
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\bin\Debug\net9.0\DinkToPdf\64bit\libwkhtmltox.dll
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\bin\Debug\net9.0\DinkToPdf.dll

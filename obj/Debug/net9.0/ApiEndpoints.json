@@ -230,5 +230,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShiftWiseAI.Server.Controllers.ShiftsController",
+    "Method": "ExportShiftsToPdf",
+    "RelativePath": "api/Shifts/export",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "from",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "to",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
