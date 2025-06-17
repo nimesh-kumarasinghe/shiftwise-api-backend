@@ -12,9 +12,9 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShiftWiseAI.Server")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e47b482d86ef2fc217ac19e733b3530ec9ca35e6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc7c39e6a0ea59d47a84ebcbf26be174185959bd")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShiftWiseAI.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShiftWiseAI.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
