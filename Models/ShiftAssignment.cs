@@ -9,7 +9,5 @@
 
         public Guid ShiftId { get; set; }
         public Shift Shift { get; set; }
-
-        public bool IsConfirmed { get; set; } = false;
     }
 }

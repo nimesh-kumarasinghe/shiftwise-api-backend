@@ -8,5 +8,6 @@
         public string Role { get; set; }
         public string AvailabilityNotes { get; set; }
         public int MaxWeeklyHours { get; set; }
+        public bool IsActive { get; set; } = true; // Default to active
     }
 }
