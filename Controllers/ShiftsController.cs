@@ -16,11 +16,13 @@ namespace ShiftWiseAI.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly PdfService _pdfService;
+        private readonly EmailService _emailService;
 
-        public ShiftsController(ApplicationDbContext context, PdfService pdfService)
+        public ShiftsController(ApplicationDbContext context, PdfService pdfService, EmailService emailService)
         {
             _context = context;
             _pdfService = pdfService;
+            _emailService = emailService;
         }
 
         // Create Shifts
@@ -311,6 +313,62 @@ namespace ShiftWiseAI.Server.Controllers
             var pdfBytes = _pdfService.ConvertHtmlToPdf(html);
 
             return File(pdfBytes, "application/pdf", $"Shift_{shift.ShiftDate:yyyyMMdd}.pdf");
+        }
+
+        // Send email if shift is confirmed and assigned employees
+        [HttpPost("{id}/notify")]
+        public async Task<IActionResult> NotifyEmployees(Guid id)
+        {
+            var shift = await _context.Shifts
+                .Include(s => s.Assignments)
+                    .ThenInclude(a => a.Employee)
+                .Include(s => s.Organization)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (shift == null)
+                return NotFound("Shift not found.");
+
+            if (!shift.IsConfirmed)
+                return BadRequest("Shift must be confirmed before notifying employees.");
+
+            if (shift.IsInformed)
+                return BadRequest("Shift has already been informed via email.");
+
+            if (shift.Assignments == null || !shift.Assignments.Any())
+                return BadRequest("No employees assigned to this shift.");
+
+            // Generate PDF
+            var shiftDate = shift.ShiftDate.Date;
+
+            var pdfBytes = _pdfService.ConvertHtmlToPdf(
+                await _pdfService.GenerateShiftHtmlAsync(
+                    new List<Shift> { shift },
+                    shift.Organization.Name,
+                    shiftDate,
+                    shiftDate
+                )
+            );
+
+
+            // Send emails
+            foreach (var assignment in shift.Assignments)
+            {
+                var employee = assignment.Employee;
+                if (!string.IsNullOrWhiteSpace(employee.Email))
+                {
+                    await _emailService.SendShiftScheduleEmailAsync(
+                        toEmail: employee.Email,
+                        subject: "Your Confirmed Shift Schedule",
+                        bodyText: $"Hi {employee.FullName},\n\nYour shift on {shift.ShiftDate:yyyy-MM-dd} has been confirmed.\nPlease see the attached schedule.\n\n– ShiftWise",
+                        pdfBytes: pdfBytes
+                    );
+                }
+            }
+
+            shift.IsInformed = true;
+            await _context.SaveChangesAsync();
+
+            return Ok("Emails sent to assigned employees.");
         }
 
 
