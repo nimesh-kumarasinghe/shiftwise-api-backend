@@ -247,4 +247,9 @@ C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\re
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ShiftWiseAI.Server.pdb
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ShiftWiseAI.Server.genruntimeconfig.cache
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\ref\ShiftWiseAI.Server.dll
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\bin\Debug\net9.0\DinkToPdf\64bit\libwkhtmltox.dll
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\bin\Debug\net9.0\DinkToPdf.dll
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\bin\Debug\net9.0\MailKit.dll
+C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\bin\Debug\net9.0\MimeKit.dll
 C:\Users\ndila\OneDrive\Desktop\ShiftWise\ShiftWiseAI.Server\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

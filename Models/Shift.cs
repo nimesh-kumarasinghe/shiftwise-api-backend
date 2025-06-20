@@ -14,6 +14,7 @@
 
         public string ShiftType { get; set; } // Morning, Evening, Night, etc.
         public bool IsConfirmed { get; set; } = false;
+        public bool IsInformed { get; set; } = false;
 
         public ICollection<ShiftAssignment> Assignments { get; set; }
     }

@@ -332,6 +332,9 @@ namespace ShiftWiseAI.Server.Migrations
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsInformed")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 

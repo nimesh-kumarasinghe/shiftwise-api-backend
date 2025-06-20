@@ -1,9 +1,13 @@
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ShiftWiseAI.Server.Data;
+using ShiftWiseAI.Server.Helpers;
 using ShiftWiseAI.Server.Models;
+using ShiftWiseAI.Server.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +53,16 @@ builder.Services.AddSwaggerGen();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Export Shift to PDF
+var context = new CustomAssemblyLoadContext();
+context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "DinkToPdf", "64bit", "libwkhtmltox.dll"));
+
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+builder.Services.AddScoped<PdfService>();
+
+builder.Services.AddScoped<EmailService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -86,6 +100,5 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     await SeedRoles(services);
 }
-
 
 app.Run();
