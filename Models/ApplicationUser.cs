@@ -7,5 +7,8 @@ namespace ShiftWiseAI.Server.Models
         public Organization Organization { get; set; }
 
         public string Role { get; set; } // e.g., "Admin", "Manager", "Employee"
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetExpiry { get; set; }
+
     }
 }
