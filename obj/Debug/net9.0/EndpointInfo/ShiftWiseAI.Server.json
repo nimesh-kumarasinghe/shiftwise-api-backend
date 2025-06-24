@@ -172,7 +172,7 @@
         }
       }
     },
-    "/api/Employees": {
+    "/api/Employees/bulk": {
       "post": {
         "tags": [
           "Employees"
@@ -181,17 +181,26 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateEmployeeRequest"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateEmployeeRequest"
+                }
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateEmployeeRequest"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateEmployeeRequest"
+                }
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateEmployeeRequest"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateEmployeeRequest"
+                }
               }
             }
           }
@@ -201,7 +210,9 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/api/Employees": {
       "get": {
         "tags": [
           "Employees"
@@ -753,6 +764,10 @@
         "type": "object",
         "properties": {
           "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
             "type": "string",
             "nullable": true
           },

@@ -91,22 +91,6 @@
   },
   {
     "ContainingType": "ShiftWiseAI.Server.Controllers.EmployeesController",
-    "Method": "CreateEmployee",
-    "RelativePath": "api/Employees",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "ShiftWiseAI.Server.DTOs.CreateEmployeeRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ShiftWiseAI.Server.Controllers.EmployeesController",
     "Method": "GetMyEmployees",
     "RelativePath": "api/Employees",
     "HttpMethod": "GET",
@@ -147,6 +131,22 @@
       {
         "Name": "id",
         "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ShiftWiseAI.Server.Controllers.EmployeesController",
+    "Method": "CreateEmployeesBulk",
+    "RelativePath": "api/Employees/bulk",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requests",
+        "Type": "System.Collections.Generic.List\u00601[[ShiftWiseAI.Server.DTOs.CreateEmployeeRequest, ShiftWiseAI.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
