@@ -33,5 +33,25 @@ namespace ShiftWiseAI.Server.Services
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
         }
+
+        public async Task SendAsync(string toEmail, string subject, string bodyText)
+        {
+            var message = new MimeMessage();
+            var fromEmail = _config["Smtp:FromEmail"];
+            var fromName = _config["Smtp:FromName"];
+            message.From.Add(new MailboxAddress(fromName, fromEmail));
+            message.To.Add(MailboxAddress.Parse(toEmail));
+            message.Subject = subject;
+
+            var builder = new BodyBuilder { TextBody = bodyText };
+            message.Body = builder.ToMessageBody();
+
+            using var client = new SmtpClient();
+            var secureOption = Enum.Parse<SecureSocketOptions>(_config["Smtp:SecureSocketOption"]);
+            await client.ConnectAsync(_config["Smtp:Host"], int.Parse(_config["Smtp:Port"]), secureOption);
+            await client.AuthenticateAsync(_config["Smtp:Username"], _config["Smtp:Password"]);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
+        }
     }
 }
