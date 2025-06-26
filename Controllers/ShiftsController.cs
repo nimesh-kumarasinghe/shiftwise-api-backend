@@ -71,7 +71,6 @@ namespace ShiftWiseAI.Server.Controllers
             return Ok("Shifts created successfully.");
         }
 
-        // Get all shifts for the organization
         [HttpGet]
         [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetShifts()
@@ -83,12 +82,36 @@ namespace ShiftWiseAI.Server.Controllers
                 return Unauthorized("No organization found for user.");
 
             var shifts = await _context.Shifts
+                .Include(s => s.Assignments)
+                    .ThenInclude(a => a.Employee)
                 .Where(s => s.OrganizationId == user.OrganizationId)
                 .OrderBy(s => s.ShiftDate)
                 .ToListAsync();
 
-            return Ok(shifts);
+            var shiftDtos = shifts.Select(s => new ShiftDto
+            {
+                Id = s.Id,
+                OrganizationId = s.OrganizationId,
+                ShiftDate = s.ShiftDate,
+                DaysCount = s.DaysCount,
+                SkipWeekends = s.SkipWeekends,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                ShiftType = s.ShiftType,
+                IsConfirmed = s.IsConfirmed,
+                IsInformed = s.IsInformed,
+                Assignments = s.Assignments.Select(a => new AssignedEmployeeDto
+                {
+                    Id = a.Id,
+                    EmployeeId = a.Employee.Id,
+                    FullName = a.Employee.FullName,
+                    Email = a.Employee.Email,
+                }).ToList()
+            });
+
+            return Ok(shiftDtos);
         }
+
 
         // Assign employees for the shift
         [HttpPost("{id}/assign")]
@@ -153,6 +176,12 @@ namespace ShiftWiseAI.Server.Controllers
 
             if (shift.IsConfirmed)
                 return BadRequest("Shift is already confirmed.");
+
+            var assignmentCount = await _context.ShiftAssignments
+                .CountAsync(a => a.ShiftId == shiftId);
+
+            if (assignmentCount == 0)
+                return BadRequest("Cannot confirm a shift without assigned employees.");
 
             shift.IsConfirmed = true;
             await _context.SaveChangesAsync();
