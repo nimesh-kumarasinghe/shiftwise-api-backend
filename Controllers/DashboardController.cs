@@ -58,13 +58,17 @@ namespace ShiftWiseAI.Server.Controllers
 
             var weeklyLoad = shifts
                 .Where(s => s.ShiftDate >= today && s.ShiftDate <= weekFromNow)
-                .GroupBy(s => s.ShiftDate.Date)
-                .Select(g => new ShiftLoadDto
+                .OrderBy(s => s.ShiftDate)
+                .Select(s => new ShiftLoadDto
                 {
-                    Date = g.Key,
-                    ShiftCount = g.Count()
+                    Date = s.ShiftDate,
+                    AssignedCount = s.Assignments.Count,
+                    ShiftType = s.ShiftType,
+                    StartTime = s.StartTime.ToString(@"hh\:mm"),
+                    Confirmation = s.IsConfirmed
+
                 })
-                .OrderBy(x => x.Date)
+                
                 .ToList();
 
 

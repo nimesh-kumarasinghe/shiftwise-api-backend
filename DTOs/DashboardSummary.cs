@@ -32,6 +32,9 @@
     public class ShiftLoadDto
     {
         public DateTime Date { get; set; }
-        public int ShiftCount { get; set; }
+        public int AssignedCount { get; set; }
+        public string ShiftType { get; set; }
+        public string StartTime { get; set; }
+        public bool Confirmation { get; set; }
     }
 }

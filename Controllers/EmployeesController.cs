@@ -26,9 +26,9 @@ namespace ShiftWiseAI.Server.Controllers
         }
 
         // Add an employee
-        [HttpPost]
+        [HttpPost("bulk")]
         [Authorize(Roles = "Admin,Manager")]
-        public async Task<IActionResult> CreateEmployee(CreateEmployeeRequest request)
+        public async Task<IActionResult> CreateEmployeesBulk([FromBody] List<CreateEmployeeRequest> requests)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -36,22 +36,53 @@ namespace ShiftWiseAI.Server.Controllers
             if (user?.OrganizationId == null)
                 return Unauthorized("No organization found for user.");
 
-            var employee = new Employee
+            var orgId = user.OrganizationId;
+
+            // Get all existing emails in this org for validation
+            var existingEmails = await _context.Employees
+                .Where(e => e.OrganizationId == orgId)
+                .Select(e => e.Email.ToLower())
+                .ToListAsync();
+
+            var newEmployees = new List<Employee>();
+            var rejected = new List<string>();
+
+            foreach (var req in requests)
             {
-                FullName = request.FullName,
-                Email = request.Email,
-                Phone = request.Phone,
-                Role = request.Role,
-                AvailabilityNotes = request.AvailabilityNotes,
-                MaxWeeklyHours = request.MaxWeeklyHours,
-                OrganizationId = user.OrganizationId
-            };
+                if (string.IsNullOrWhiteSpace(req.Email)) continue;
 
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+                var email = req.Email.ToLower();
+                if (existingEmails.Contains(email) || newEmployees.Any(e => e.Email.ToLower() == email))
+                {
+                    rejected.Add(email);
+                    continue;
+                }
 
-            return Ok(new { message = "Employee added successfully." });
+                newEmployees.Add(new Employee
+                {
+                    FullName = req.FullName,
+                    Email = req.Email,
+                    Phone = req.Phone,
+                    Role = req.Role,
+                    AvailabilityNotes = req.AvailabilityNotes,
+                    MaxWeeklyHours = req.MaxWeeklyHours,
+                    OrganizationId = orgId
+                });
+            }
+
+            if (newEmployees.Any())
+            {
+                _context.Employees.AddRange(newEmployees);
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok(new
+            {
+                message = $"Added {newEmployees.Count} employees.",
+                rejectedEmails = rejected
+            });
         }
+
 
         // Get all employees
         [HttpGet]
@@ -101,6 +132,7 @@ namespace ShiftWiseAI.Server.Controllers
                 return NotFound("Employee not found.");
 
             employee.FullName = request.FullName;
+            employee.Email = request.Email;
             employee.Role = request.Role;
             employee.MaxWeeklyHours = request.MaxWeeklyHours;
             employee.Phone = request.Phone;
