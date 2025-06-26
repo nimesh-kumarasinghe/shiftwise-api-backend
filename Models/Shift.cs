@@ -16,6 +16,7 @@
         public bool IsConfirmed { get; set; } = false;
         public bool IsInformed { get; set; } = false;
 
-        public ICollection<ShiftAssignment> Assignments { get; set; }
+        public ICollection<ShiftAssignment> Assignments { get; set; } = new List<ShiftAssignment>();
+
     }
 }
