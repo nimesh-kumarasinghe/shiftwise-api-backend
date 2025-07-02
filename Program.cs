@@ -3,6 +3,7 @@ using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ShiftWiseAI.Server.Data;
 using ShiftWiseAI.Server.Helpers;
@@ -10,6 +11,7 @@ using ShiftWiseAI.Server.Models;
 using ShiftWiseAI.Server.Services;
 using System.Text;
 
+DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,7 +20,7 @@ builder.Services.AddControllers();
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
 // Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

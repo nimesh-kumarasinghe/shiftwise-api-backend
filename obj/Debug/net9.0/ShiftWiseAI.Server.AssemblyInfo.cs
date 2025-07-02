@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShiftWiseAI.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0473ea73c4dab2d0e629c9e920e8ec9f6105975d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03c01411d3a8da29cc1376c762a20025be1ceb02")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShiftWiseAI.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShiftWiseAI.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
