@@ -10,9 +10,16 @@ using ShiftWiseAI.Server.Helpers;
 using ShiftWiseAI.Server.Models;
 using ShiftWiseAI.Server.Services;
 using System.Text;
+using AspNetCoreRateLimit;
 
 DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
+
+// Add configuration and rate limiting services
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
 // Add services to the container.
 
@@ -85,6 +92,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseIpRateLimiting();
 
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
